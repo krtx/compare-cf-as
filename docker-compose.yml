@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  minio:
+    image: minio/minio
+    command: server /var/lib/minio
+    environment:
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=miniostorage
+    ports:
+      - 9000:9000
+  py:
+    build: ./py/
+    volumes:
+    - type: bind
+      source: ./py
+      target: /app
+    environment:
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=miniostorage
